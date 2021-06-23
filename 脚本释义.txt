@@ -1,0 +1,31 @@
+﻿通用的测试脚本
+﻿python detect-images.py 批量加载images文件夹的图片，识别结果存在results文件夹
+python detect-video.py 加载videos文件夹指定视频，实时展示
+python detect-camera.py 实时打开摄像头识别
+
+python mian.py 打开pyqt界面进行识别，需要安装pyqt5依赖库 pip install -i https://pypi.tuna.tsinghua.edu.cn/simple PyQt5
+
+添加类别间重叠去重策略，根据个人项目需求使用。
+﻿python detect-iou.py 批量加载images文件夹的图片，识别结果存在results文件夹
+python detect-video-iou.py 加载videos文件夹指定视频，实时展示
+python detect-camera-iou.py 实时打开摄像头识别
+
+模型：weights文件夹放着训练好的的模型
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--weights', nargs='+', type=str, default='weights/last.pt', help='model.pt path(s)')
+在代码中可以修改加载的模型。修改default参数的模型即可
+
+
+训练自建数据集
+数据集制作成voc格式，注意先两个制作数据集脚本里面的路径，不同数据集不同电脑里面的路径都会发生变化，注意修改成你自己的路径
+python make-txt.py  生成相应的txt     注意修改该脚本里面的路径
+python voc_label.py 生成对应的路径    注意修改该脚本里面的路径和类别
+data/me.yaml  修改里面的路径和类别数目
+model/yolov5x.yaml  修改里面的类别数目 或者修改model/yolov5s.yaml，选哪个取决于您想训练什么模型
+
+ython train.py --batch 2 --epochs 80 --data data/me.yaml --cfg models/yolov5s.yaml --weights weights/yolov5s.pt
+
+python train.py --batch 2 --epochs 30 --data data/me.yaml --cfg models/yolov5x.yaml --weights weights/yolov5x.pt
+
+训练保存的模型和日志文件在runs文件夹
